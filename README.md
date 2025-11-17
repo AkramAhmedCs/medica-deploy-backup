@@ -9,7 +9,7 @@ A simple medical website that allows you to book appointments and view your medi
 Clone the repository:
 
 ```bash
-git clone https://github.com/SerajEldeen/PayFlow.git
+git clone https://github.com/SerajEldeen/Medica.git
 
 cd Medica
 
