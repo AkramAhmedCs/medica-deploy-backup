@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  username String @unique
+  email String @unique
+  password String
+  role   Role @default(PATIENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient?
+  doctor Doctor?
+}
+enum Role{
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+model Patient{
+  id Int @id 
+  user User @relation(fields:[id],references:[id])
+
+  appointments Appointment[]
+  medicalHistory MedicalHistory[]
+}
+model Doctor{
+  id Int @id 
+  user User @relation(fields:[id],references:[id])
+
+  appointments Appointment[]
+  medicalHistory MedicalHistory[]
+}
+model Appointment{
+  id Int @id @default(autoincrement())
+  patientId Int
+  doctorId Int
+  appointmentDate DateTime
+  status  AppointmentStatus @default(AVAILABLE)
+
+  patient Patient @relation(fields:[patientId],references:[id])
+  doctor Doctor @relation(fields:[doctorId],references:[id])
+
+  createdAt DateTime @default(now())
+
+}
+enum AppointmentStatus{
+  AVAILABLE
+  BOOKED
+  BUSY
+  BOOKED_BY_YOU
+}
+model MedicalHistory{
+  id Int @id @default(autoincrement())
+  patientId Int
+  doctorId Int?
+  prescription String?
+  visitDate DateTime @default(now())
+
+  patient Patient @relation(fields:[patientId],references:[id])
+  doctor Doctor? @relation(fields:[doctorId],references:[id])
+
+}
+
+//npx prisma migrate dev -- MEDICA_init
