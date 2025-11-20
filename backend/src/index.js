@@ -7,7 +7,7 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import AppError from "./services/appError.js";
 import globalErrorHandler from "./middlewares/globalErrorHandler.js";
-import db from "./config/db.js";
+import userRouter from "./routes/user.router.js";
 const app = express();
 
 app.use(helmet());
@@ -20,6 +20,8 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(express.json());
 app.use(cors());
+
+app.use("/api/v1/users", userRouter);
 
 app.use((req, res, next) =>
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404))
