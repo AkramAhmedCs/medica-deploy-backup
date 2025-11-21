@@ -8,6 +8,8 @@ import rateLimit from "express-rate-limit";
 import AppError from "./services/appError.js";
 import globalErrorHandler from "./middlewares/globalErrorHandler.js";
 import userRouter from "./routes/user.router.js";
+import appointmentRoutes from "./routes/appointment.route.js";
+import medicalHistoryRoutes from "./routes/medicalHistory.route.js";
 const app = express();
 
 app.use(helmet());
@@ -22,6 +24,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/appointments", appointmentRoutes);
+app.use("/api/v1/medicalHistory", medicalHistoryRoutes);
 
 app.use((req, res, next) =>
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404))

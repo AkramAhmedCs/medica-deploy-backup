@@ -1,6 +1,9 @@
 import AppError from "../services/appError.js";
 import catchAsync from "./catchAsync.js";
 import jwt from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 export const protect = catchAsync(async (req, res, next) => {
   let token;
   if (
@@ -14,9 +17,17 @@ export const protect = catchAsync(async (req, res, next) => {
       new AppError("You are not logged in! Please log in to get access.", 401)
     );
   }
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  console.log("Decoded token: ", decoded);
+  const currentUser = await prisma.user.findUnique({
+    where: { id: decoded.id },
+  });
 
-  req.user = decoded;
+  if (!currentUser) {
+    return next(new AppError("The user no longer exists.", 401));
+  }
+
+  req.user = currentUser;
 
   next();
 });

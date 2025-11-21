@@ -18,7 +18,10 @@ export const signup = catchAsync(async (req, res, next) => {
       role: "PATIENT",
     },
   });
-  const token = generateToken(user.id);
+  await prisma.patient.create({
+    data: { id: user.id },
+  });
+  const token = generateToken(user);
   res.status(201).json({ status: "success", token, user });
 });
 
@@ -40,7 +43,7 @@ export const login = catchAsync(async (req, res, next) => {
   if (!isPasswordValid) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
-  const token = generateToken(user.id);
+  const token = generateToken(user);
   res.status(200).json({ status: "success", token, user });
 });
 

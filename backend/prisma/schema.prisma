@@ -42,12 +42,12 @@ model Doctor{
 }
 model Appointment{
   id Int @id @default(autoincrement())
-  patientId Int
+  patientId Int?
   doctorId Int
   appointmentDate DateTime
   status  AppointmentStatus @default(AVAILABLE)
 
-  patient Patient @relation(fields:[patientId],references:[id])
+  patient Patient? @relation(fields:[patientId],references:[id])
   doctor Doctor @relation(fields:[doctorId],references:[id])
 
   createdAt DateTime @default(now())
