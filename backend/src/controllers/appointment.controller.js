@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import catchAsync from "../middlewares/catchAsync.js";
 import AppError from "../services/appError.js";
+import { notifyPatient } from "../utils/notificationService.js";
 const prisma = new PrismaClient();
 
 //                  ADMIN
@@ -138,6 +139,13 @@ export const bookAppointment = catchAsync(async (req, res, next) => {
 
   const appointment = await prisma.appointment.findUnique({
     where: { id: parseInt(id) },
+    include: {
+      doctor: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   if (!appointment) return next(new AppError("Appointment not found", 404));
@@ -150,7 +158,21 @@ export const bookAppointment = catchAsync(async (req, res, next) => {
       status: "BOOKED",
       patientId: userId,
     },
+    include: {
+      doctor: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
+  await notifyPatient(
+    userId,
+    "Your appointment is confirmed",
+    `Your appointment with Dr. ${
+      updated.doctor.user.username
+    } is confirmed for ${appointment.appointmentDate.toLocaleString()}`
+  );
 
   res.status(200).json({ status: "success", appointment: updated });
 });
@@ -175,6 +197,11 @@ export const cancelAppointment = catchAsync(async (req, res, next) => {
       patientId: null,
     },
   });
+  await notifyPatient(
+    userId,
+    "Appointment Canceled",
+    `Your appointment on ${updated.appointmentDate.toLocaleString()} has been canceled.`
+  );
 
   res.status(200).json({ status: "success", appointment: updated });
 });
