@@ -12,21 +12,25 @@ import ShowAllDoctors from "./components/ShowAllDoctors";
 import ShowAllPatients from "./components/ShowAllPatients";
 import ShowAllAdmins from "./components/ShowAllAdmins";
 import NotFound from "./components/NotFound";
+import PrivateRoute from "./components/PrivateRoute";
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<UnregisterHome />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Register />} />
+      {/* Patient Routes */}
       <Route path="/patient_dashboard">
         <Route index element={<PatientProfile />} />
         <Route path="history" element={<PatientHistory />} />
       </Route>
+      {/* Doctor Routes */}
       <Route path="/doctor_dashboard">
         <Route index element={<DoctorProfile />} />
         <Route path="history" element={<DoctorHistory />} />
         <Route path="consultation" element={<JoinConsultation />} />
       </Route>
+      {/* Admin Routes */}
       <Route path="/admin_dashboard">
         <Route index element={<AdminProfile />} />
         <Route path="show_alldoctors" element={<ShowAllDoctors />} />
