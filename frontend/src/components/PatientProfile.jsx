@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import toast from "react-hot-toast";
 import DashboardLayout from "./DashboardLayout";
 import LoadingSpinner from "./LoadingSpinner";
 import { getAllDoctors } from "../api/user";
@@ -69,15 +70,14 @@ const PatientProfile = () => {
     setSuccess("");
     try {
       await bookAppointment(appointmentId);
-      setSuccess("Appointment booked successfully!");
+      toast.success("Appointment booked successfully!");
       // Reload appointments
       if (selectedDoctor) {
         loadDoctorAppointments(selectedDoctor);
       }
-      setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || "Failed to book appointment");
+      toast.error(err.response?.data?.message || "Failed to book appointment");
     }
   };
 
@@ -86,15 +86,14 @@ const PatientProfile = () => {
     setSuccess("");
     try {
       await cancelAppointment(appointmentId);
-      setSuccess("Appointment canceled successfully!");
+      toast.success("Appointment canceled successfully!");
       // Reload appointments
       if (selectedDoctor) {
         loadDoctorAppointments(selectedDoctor);
       }
-      setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || "Failed to cancel appointment");
+      toast.error(err.response?.data?.message || "Failed to cancel appointment");
     }
   };
 
