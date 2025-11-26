@@ -9,15 +9,21 @@ export const ThemeProvider = ({ children }) => {
   });
 
   useEffect(() => {
+    console.log('Dark mode changed:', darkMode);
     localStorage.setItem("darkMode", darkMode);
     if (darkMode) {
       document.documentElement.classList.add("dark");
+      console.log('Added dark class');
     } else {
       document.documentElement.classList.remove("dark");
+      console.log('Removed dark class');
     }
   }, [darkMode]);
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleDarkMode = () => {
+    console.log('Toggling dark mode from', darkMode, 'to', !darkMode);
+    setDarkMode(!darkMode);
+  };
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
