@@ -114,7 +114,7 @@ const DoctorProfile = () => {
 
       return {
         name: dayStr,
-        appointments total: dayAppointments.length,
+        total: dayAppointments.length,
         booked: dayAppointments.filter(a => a.status === "BOOKED").length,
       };
     });
