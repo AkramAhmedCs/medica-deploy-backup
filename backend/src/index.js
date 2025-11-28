@@ -11,6 +11,7 @@ import userRouter from "./routes/user.router.js";
 import appointmentRoutes from "./routes/appointment.route.js";
 import medicalHistoryRoutes from "./routes/medicalHistory.route.js";
 const app = express();
+app.use(cors());
 
 app.use(helmet());
 app.use(morgan("common"));
@@ -21,8 +22,6 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 app.use(express.json());
-app.use(cors());
-
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/appointments", appointmentRoutes);
 app.use("/api/v1/medicalHistory", medicalHistoryRoutes);

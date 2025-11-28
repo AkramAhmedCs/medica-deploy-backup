@@ -48,7 +48,7 @@ const ShowAllAdmins = () => {
   const loadAdmins = async () => {
     try {
       const data = await getAllAdmins();
-      setAdmins(data.data || []);
+      setAdmins(data.admins || []);
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -98,9 +98,9 @@ const ShowAllAdmins = () => {
   const startEdit = (admin) => {
     setEditingAdmin(admin);
     setFormData({
-      username: admin.user.username,
-      email: admin.user.email,
-      phone: admin.user.phone || "",
+      username: admin.username,
+      email: admin.email,
+      phone: admin.phone || "",
       password: "",
     });
     setShowForm(true);
@@ -228,9 +228,9 @@ const ShowAllAdmins = () => {
               {admins.map((admin) => (
                 <tr key={admin.id} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="py-3 px-4">{admin.id}</td>
-                  <td className="py-3 px-4">{admin.user.username}</td>
-                  <td className="py-3 px-4">{admin.user.email}</td>
-                  <td className="py-3 px-4">{admin.user.phone || "N/A"}</td>
+                  <td className="py-3 px-4">{admin.username}</td>
+                  <td className="py-3 px-4">{admin.email}</td>
+                  <td className="py-3 px-4">{admin.phone || "N/A"}</td>
                   <td className="py-3 px-4">
                     <div className="flex gap-2">
                       <button

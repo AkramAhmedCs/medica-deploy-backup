@@ -48,7 +48,7 @@ const ShowAllPatients = () => {
   const loadPatients = async () => {
     try {
       const data = await getAllPatients();
-      setPatients(data.data || []);
+      setPatients(data.patients || []);
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -98,9 +98,9 @@ const ShowAllPatients = () => {
   const startEdit = (patient) => {
     setEditingPatient(patient);
     setFormData({
-      username: patient.user.username,
-      email: patient.user.email,
-      phone: patient.user.phone || "",
+      username: patient.username,
+      email: patient.email,
+      phone: patient.phone || "",
       password: "",
     });
     setShowForm(true);
@@ -228,9 +228,9 @@ const ShowAllPatients = () => {
               {patients.map((patient) => (
                 <tr key={patient.id} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="py-3 px-4">{patient.id}</td>
-                  <td className="py-3 px-4">{patient.user.username}</td>
-                  <td className="py-3 px-4">{patient.user.email}</td>
-                  <td className="py-3 px-4">{patient.user.phone || "N/A"}</td>
+                  <td className="py-3 px-4">{patient.username}</td>
+                  <td className="py-3 px-4">{patient.email}</td>
+                  <td className="py-3 px-4">{patient.phone || "N/A"}</td>
                   <td className="py-3 px-4">
                     <div className="flex gap-2">
                       <button

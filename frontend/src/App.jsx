@@ -11,6 +11,7 @@ import AdminProfile from "./components/AdminProfile";
 import ShowAllDoctors from "./components/ShowAllDoctors";
 import ShowAllPatients from "./components/ShowAllPatients";
 import ShowAllAdmins from "./components/ShowAllAdmins";
+import ShowAllAppointments from "./components/ShowAllAppointments";
 import NotFound from "./components/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="show_alldoctors" element={<ShowAllDoctors />} />
         <Route path="show_allpatients" element={<ShowAllPatients />} />
         <Route path="show_alladmins" element={<ShowAllAdmins />} />
+        <Route path="show_allappointments" element={<ShowAllAppointments />} />
       </Route>
       <Route path="/logout" element={<UnregisterHome />} />
       <Route path="*" element={<NotFound />} />

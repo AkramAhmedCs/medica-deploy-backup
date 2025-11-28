@@ -49,7 +49,7 @@ const ShowAllDoctors = () => {
   const loadDoctors = async () => {
     try {
       const data = await getAllDoctors();
-      setDoctors(data.data || []);
+      setDoctors(data.doctors || []);
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -99,11 +99,11 @@ const ShowAllDoctors = () => {
   const startEdit = (doctor) => {
     setEditingDoctor(doctor);
     setFormData({
-      username: doctor.user.username,
-      email: doctor.user.email,
-      phone: doctor.user.phone || "",
+      username: doctor.username,
+      email: doctor.email,
+      phone: doctor.phone || "",
       password: "",
-      speciality: doctor.speciality,
+      speciality: doctor.doctor?.speciality || "",
     });
     setShowForm(true);
   };
@@ -271,9 +271,9 @@ const ShowAllDoctors = () => {
               {doctors.map((doctor) => (
                 <tr key={doctor.id} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="py-3 px-4">{doctor.id}</td>
-                  <td className="py-3 px-4">{doctor.user.username}</td>
-                  <td className="py-3 px-4">{doctor.user.email}</td>
-                  <td className="py-3 px-4">{doctor.speciality}</td>
+                  <td className="py-3 px-4">{doctor.username}</td>
+                  <td className="py-3 px-4">{doctor.email}</td>
+                  <td className="py-3 px-4">{doctor.doctor?.speciality}</td>
                   <td className="py-3 px-4">
                     <div className="flex gap-2">
                       <button

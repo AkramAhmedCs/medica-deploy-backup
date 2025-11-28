@@ -59,13 +59,13 @@ const AdminProfile = () => {
       ]);
 
       setStats({
-        doctors: doctorsData.data?.length || 0,
-        patients: patientsData.data?.length || 0,
-        admins: adminsData.data?.length || 0,
-        appointments: appointmentsData.data?.length || 0,
+        doctors: doctorsData.doctors?.length || 0,
+        patients: patientsData.patients?.length || 0,
+        admins: adminsData.admins?.length || 0,
+        appointments: appointmentsData.appointments?.length || 0,
       });
 
-      setAppointments(appointmentsData.data || []);
+      setAppointments(appointmentsData.appointments || []);
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -77,7 +77,12 @@ const AdminProfile = () => {
   const handleGenerateSchedule = async () => {
     setGenerating(true);
     try {
-      await generateMonthScheduleForAllDoctors();
+      const now = new Date();
+      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+      await generateMonthScheduleForAllDoctors({
+        month: nextMonth.getMonth() + 1, // 1-12
+        year: nextMonth.getFullYear(),
+      });
       toast.success("Monthly schedule generated successfully for all doctors!");
       loadDashboardData();
     } catch (err) {
@@ -343,12 +348,30 @@ const AdminProfile = () => {
             </div>
             <p className="text-white/90 text-sm">Manually create new appointment</p>
           </button>
+
+          <Link
+            to="/admin_dashboard/show_allappointments"
+            className="group bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+          >
+            <div className="flex items-center space-x-3 mb-2">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <h4 className="font-semibold text-lg">Manage Appointments</h4>
+            </div>
+            <p className="text-white/90 text-sm">View and manage all appointments</p>
+          </Link>
         </div>
       </div>
 
       {/* Appointments List with View Details */}
       <div className="bg-white p-6 rounded-lg shadow mb-8">
-        <h3 className="text-2xl font-bold text-secondary mb-4">Recent Appointments</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-2xl font-bold text-secondary">Recent Appointments</h3>
+          <Link to="/admin_dashboard/show_allappointments" className="text-primary hover:underline">
+            View All
+          </Link>
+        </div>
         {appointments.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -455,8 +478,8 @@ const AdminProfile = () => {
                       <td className="px-4 py-2">{user.email}</td>
                       <td className="px-4 py-2">
                         <span className={`px-2 py-1 rounded text-xs font-semibold ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-800' :
-                            user.role === 'DOCTOR' ? 'bg-blue-100 text-blue-800' :
-                              'bg-green-100 text-green-800'
+                          user.role === 'DOCTOR' ? 'bg-blue-100 text-blue-800' :
+                            'bg-green-100 text-green-800'
                           }`}>
                           {user.role}
                         </span>
@@ -567,8 +590,8 @@ const AdminProfile = () => {
                 <div>
                   <p className="text-sm text-gray-500">Status</p>
                   <span className={`inline-block px-2 py-1 rounded text-xs font-semibold ${appointmentDetails.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' :
-                      appointmentDetails.status === 'BOOKED' ? 'bg-blue-100 text-blue-800' :
-                        'bg-red-100 text-red-800'
+                    appointmentDetails.status === 'BOOKED' ? 'bg-blue-100 text-blue-800' :
+                      'bg-red-100 text-red-800'
                     }`}>
                     {appointmentDetails.status}
                   </span>

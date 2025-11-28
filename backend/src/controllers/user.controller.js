@@ -54,6 +54,7 @@ export const getAllUsers = catchAsync(async (req, res, next) => {
       id: true,
       username: true,
       email: true,
+      phone: true,
       role: true,
       createdAt: true,
       updatedAt: true,
@@ -71,6 +72,7 @@ export const getAllAdmins = catchAsync(async (req, res, next) => {
       id: true,
       username: true,
       email: true,
+      phone: true,
       role: true,
       createdAt: true,
       updatedAt: true,
@@ -84,11 +86,11 @@ export const getAllAdmins = catchAsync(async (req, res, next) => {
 export const getAllDoctors = catchAsync(async (req, res, next) => {
   const doctors = await prisma.user.findMany({
     where: { role: "DOCTOR" },
-    include: { doctor: true },
     select: {
       id: true,
       username: true,
       email: true,
+      phone: true,
       role: true,
       createdAt: true,
       updatedAt: true,
@@ -103,11 +105,11 @@ export const getAllDoctors = catchAsync(async (req, res, next) => {
 export const getAllPatients = catchAsync(async (req, res, next) => {
   const patients = await prisma.user.findMany({
     where: { role: "PATIENT" },
-    include: { patient: true },
     select: {
       id: true,
       username: true,
       email: true,
+      phone: true,
       role: true,
       createdAt: true,
       updatedAt: true,
@@ -130,6 +132,7 @@ export const getAdminById = catchAsync(async (req, res, next) => {
       id: true,
       username: true,
       email: true,
+      phone: true,
       role: true,
       createdAt: true,
       updatedAt: true,
@@ -212,6 +215,7 @@ export const createAdmin = catchAsync(async (req, res, next) => {
       id: true,
       username: true,
       email: true,
+      phone: true,
       role: true,
       createdAt: true,
       updatedAt: true,
@@ -286,6 +290,7 @@ export const updateAdmin = catchAsync(async (req, res, next) => {
       id: true,
       username: true,
       email: true,
+      phone: true,
       role: true,
       createdAt: true,
       updatedAt: true,

@@ -14,8 +14,8 @@ export const getAppointmentById = (id) =>
 export const deleteAppointment = (id) =>
   api.delete(`/appointments/admin/${id}`).then((res) => res.data);
 
-export const generateMonthScheduleForAllDoctors = () =>
-  api.post("/appointments/admin/generate-month-all").then((res) => res.data);
+export const generateMonthScheduleForAllDoctors = (data) =>
+  api.post("/appointments/admin/generate-month-all", data).then((res) => res.data);
 
 /* ---------------------- PATIENT ---------------------- */
 
