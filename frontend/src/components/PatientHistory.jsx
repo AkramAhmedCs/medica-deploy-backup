@@ -145,9 +145,9 @@ const PatientHistory = () => {
           <LoadingSpinner size="lg" />
         </div>
       ) : selectedDoctor ? (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white p-6 rounded-lg shadow">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-secondary dark:text-white">
+            <h3 className="text-xl font-bold text-secondary">
               Medical Records
             </h3>
             {history.length > 0 && (

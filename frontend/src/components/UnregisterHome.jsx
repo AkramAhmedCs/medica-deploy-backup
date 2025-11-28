@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 
 const UnregisterHome = () => {
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-900 transition-colors duration-200">
+    <div className="min-h-screen bg-background transition-colors duration-200">
       <Navbar />
 
       {/* Hero Section */}
@@ -36,12 +36,12 @@ const UnregisterHome = () => {
       {/* Features Section */}
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-secondary dark:text-white mb-12">
+          <h2 className="text-4xl font-bold text-center text-secondary mb-12">
             Why Choose Medica?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 hover:-translate-y-2">
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 hover:-translate-y-2">
               <div className="bg-primary w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <svg
                   className="w-8 h-8 text-white"
@@ -57,17 +57,17 @@ const UnregisterHome = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-secondary dark:text-white mb-3 text-center">
+              <h3 className="text-xl font-semibold text-secondary mb-3 text-center">
                 Easy Appointment Booking
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">
+              <p className="text-gray-600 text-center">
                 Book appointments with your preferred doctors in just a few clicks.
                 View available time slots and choose what works for you.
               </p>
             </div>
 
             {/* Feature 2 */}
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 hover:-translate-y-2">
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 hover:-translate-y-2">
               <div className="bg-primary w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <svg
                   className="w-8 h-8 text-white"
@@ -83,17 +83,17 @@ const UnregisterHome = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-secondary dark:text-white mb-3 text-center">
+              <h3 className="text-xl font-semibold text-secondary mb-3 text-center">
                 Medical History Tracking
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">
+              <p className="text-gray-600 text-center">
                 Access your complete medical history anytime. All your prescriptions
                 and visit records in one secure place.
               </p>
             </div>
 
             {/* Feature 3 */}
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 hover:-translate-y-2">
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition duration-300 hover:-translate-y-2">
               <div className="bg-primary w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <svg
                   className="w-8 h-8 text-white"
@@ -109,10 +109,10 @@ const UnregisterHome = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-secondary dark:text-white mb-3 text-center">
+              <h3 className="text-xl font-semibold text-secondary mb-3 text-center">
                 Doctor-Patient Communication
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">
+              <p className="text-gray-600 text-center">
                 Seamless communication between doctors and patients. Get timely
                 updates and manage your healthcare efficiently.
               </p>
