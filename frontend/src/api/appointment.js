@@ -19,8 +19,10 @@ export const generateMonthScheduleForAllDoctors = (data) =>
 
 /* ---------------------- PATIENT ---------------------- */
 
-export const getDoctorAppointmentsForMonth = (doctorId) =>
-  api.get(`/appointments/patient/doctor/${doctorId}`).then((res) => res.data);
+export const getDoctorAppointmentsForMonth = (doctorId, month, year) =>
+  api
+    .get(`/appointments/patient/doctor/${doctorId}?month=${month}&year=${year}`)
+    .then((res) => res.data);
 
 export const bookAppointment = (id, data) =>
   api.patch(`/appointments/patient/book/${id}`, data).then((res) => res.data);
@@ -30,8 +32,10 @@ export const cancelAppointment = (id, data) =>
 
 /* ---------------------- DOCTOR ---------------------- */
 
-export const getDoctorSchedule = () =>
-  api.get("/appointments/doctor/schedule").then((res) => res.data);
+export const getDoctorSchedule = (month, year) =>
+  api
+    .get(`/appointments/doctor/schedule?month=${month}&year=${year}`)
+    .then((res) => res.data);
 
 export const blockSlot = (id, data) =>
   api.patch(`/appointments/doctor/block/${id}`, data).then((res) => res.data);

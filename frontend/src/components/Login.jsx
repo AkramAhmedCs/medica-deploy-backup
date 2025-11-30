@@ -1,6 +1,6 @@
 import overviewImg from "../assets/overview.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { login as loginAPI } from "../api/user";
 
@@ -10,6 +10,10 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();

@@ -8,13 +8,14 @@ const prisma = new PrismaClient();
 
 //Signup
 export const signup = catchAsync(async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, phone } = req.body;
   const hashedPassword = await bcrypt.hash(password, 12);
   const user = await prisma.user.create({
     data: {
       username,
       email,
       password: hashedPassword,
+      phone,
       role: "PATIENT",
     },
   });
@@ -28,7 +29,10 @@ export const signup = catchAsync(async (req, res, next) => {
 //login
 export const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(`Login attempt for email: ${email}`);
+
   if (!email || !password) {
+    console.log("Missing email or password");
     return next(new AppError("Please provide email and password", 400));
   }
   const user = await prisma.user.findUnique({
@@ -37,13 +41,20 @@ export const login = catchAsync(async (req, res, next) => {
     },
   });
   if (!user) {
+    console.log("User not found in DB");
     return res.status(401).json({ message: "Invalid email or password" });
   }
+  console.log(`User found: ${user.email}, Role: ${user.role}`);
+
   const isPasswordValid = await bcrypt.compare(password, user.password);
+  console.log(`Password valid: ${isPasswordValid}`);
+
   if (!isPasswordValid) {
+    console.log("Password mismatch");
     return res.status(401).json({ message: "Invalid email or password" });
   }
   const token = generateToken(user);
+  console.log("Login successful, token generated");
   res.status(200).json({ status: "success", token, user });
 });
 

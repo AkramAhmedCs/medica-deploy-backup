@@ -41,11 +41,15 @@ const DoctorProfile = () => {
 
   const loadDoctorData = async () => {
     try {
+      const now = new Date();
+      const month = now.getMonth() + 1;
+      const year = now.getFullYear();
+
       const [scheduleData, patientsData] = await Promise.all([
-        getDoctorSchedule(),
+        getDoctorSchedule(month, year),
         getAllPatients(),
       ]);
-      setSchedule(scheduleData.data || []);
+      setSchedule(scheduleData.appointments || []);
       setPatients(patientsData.data || []);
       setLoading(false);
     } catch (err) {

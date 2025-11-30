@@ -42,7 +42,7 @@ const PatientProfile = () => {
   const loadDoctors = async () => {
     try {
       const data = await getAllDoctors();
-      setDoctors(data.data || []);
+      setDoctors(data.doctors || []);
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -55,8 +55,11 @@ const PatientProfile = () => {
     setLoadingAppointments(true);
     setError("");
     try {
-      const data = await getDoctorAppointmentsForMonth(doctorId);
-      setAppointments(data.data || []);
+      const now = new Date();
+      const month = now.getMonth() + 1; // 1-indexed
+      const year = now.getFullYear();
+      const data = await getDoctorAppointmentsForMonth(doctorId, month, year);
+      setAppointments(data.appointments || []);
       setSelectedDoctor(doctorId);
     } catch (err) {
       console.error(err);
@@ -133,7 +136,7 @@ const PatientProfile = () => {
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-primary to-cta text-white p-6 rounded-xl mb-6 shadow-lg">
         <h2 className="text-2xl font-bold mb-2">
-          Welcome, {userInfo?.username || userInfo?.email}!
+          Hello {userInfo?.username}!
         </h2>
         <p className="text-white/90">
           Book appointments with your preferred doctors and manage your healthcare.
@@ -169,14 +172,14 @@ const PatientProfile = () => {
                 <div className="flex items-center mb-4">
                   <div className="bg-primary w-12 h-12 rounded-full flex items-center justify-center mr-3">
                     <span className="text-white font-bold text-xl">
-                      {doctor.user.username[0].toUpperCase()}
+                      {doctor.username[0].toUpperCase()}
                     </span>
                   </div>
                   <div>
                     <h4 className="font-semibold text-secondary">
-                      Dr. {doctor.user.username}
+                      Dr. {doctor.username}
                     </h4>
-                    <p className="text-sm text-gray-600">{doctor.speciality}</p>
+                    <p className="text-sm text-gray-600">{doctor.doctor?.speciality}</p>
                   </div>
                 </div>
                 <button

@@ -42,7 +42,7 @@ const PatientHistory = () => {
   const loadDoctors = async () => {
     try {
       const data = await getAllDoctors();
-      setDoctors(data.data || []);
+      setDoctors(data.doctors || []);
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -126,7 +126,7 @@ const PatientHistory = () => {
           <option value="">-- Choose a doctor --</option>
           {doctors.map((doctor) => (
             <option key={doctor.id} value={doctor.id}>
-              Dr. {doctor.user.username} - {doctor.speciality}
+              Dr. {doctor.username} - {doctor.doctor?.speciality}
             </option>
           ))}
         </select>

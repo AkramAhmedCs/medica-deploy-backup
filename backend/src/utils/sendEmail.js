@@ -11,6 +11,11 @@ export const sendEmail = async (to, subject, text, html) => {
     html,
   };
 
-  await sgMail.send(msg);
-  console.log("Email sent ✔");
+  try {
+    await sgMail.send(msg);
+    console.log("Email sent ✔");
+  } catch (error) {
+    console.error("Failed to send email:", error.message);
+    // Don't throw, just log
+  }
 };

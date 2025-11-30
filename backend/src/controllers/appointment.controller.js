@@ -19,7 +19,17 @@ export const getAllAppointments = catchAsync(async (req, res, next) => {
 
 //Create new Appointment
 export const createAppointment = catchAsync(async (req, res, next) => {
-  const { patientId, doctorId, appointmentDate } = req.body;
+  let { patientId, doctorId, appointmentDate } = req.body;
+
+  // Handle empty string or invalid patientId
+  if (patientId === "" || patientId === "null" || !patientId) {
+    patientId = null;
+  } else {
+    patientId = parseInt(patientId);
+  }
+
+  doctorId = parseInt(doctorId);
+
   const appointment = await prisma.appointment.create({
     data: {
       patientId,
@@ -78,25 +88,35 @@ export const generateMonthScheduleForAllDoctors = catchAsync(
     const appointments = [];
 
     // Loop doctors → loop days
+    const appointmentPromises = [];
     doctors.forEach((doctor) => {
       for (let day = 1; day <= daysInMonth; day++) {
-        appointments.push({
-          doctorId: doctor.id,
-          patientId: null, // initially empty
-          appointmentDate: new Date(year, month - 1, day),
-          status: "AVAILABLE",
-        });
+        const appointmentDate = new Date(year, month - 1, day);
+        appointmentPromises.push(
+          prisma.appointment.upsert({
+            where: {
+              doctorId_appointmentDate: {
+                doctorId: doctor.id,
+                appointmentDate: appointmentDate,
+              },
+            },
+            update: {}, // Do nothing if exists
+            create: {
+              doctorId: doctor.id,
+              patientId: null,
+              appointmentDate: appointmentDate,
+              status: "AVAILABLE",
+            },
+          })
+        );
       }
     });
 
-    await prisma.appointment.createMany({
-      data: appointments,
-      skipDuplicates: true, // prevents duplicate schedule
-    });
+    await Promise.all(appointmentPromises);
 
     res.status(201).json({
       status: "success",
-      message: `Created ${appointments.length} appointment slots for all doctors`,
+      message: `Processed schedule for all doctors`,
     });
   }
 );
@@ -109,12 +129,17 @@ export const getDoctorAppointmentsForMonth = catchAsync(
     const { month, year } = req.query;
     const userId = req.user.id;
 
+    const m = parseInt(month);
+    const y = parseInt(year);
+
+    console.log(`Fetching appointments for doctor ${doctorId}, month: ${m}, year: ${y}`);
+
     const appointments = await prisma.appointment.findMany({
       where: {
         doctorId: parseInt(doctorId),
         appointmentDate: {
-          gte: new Date(year, month - 1, 1),
-          lt: new Date(year, month, 1),
+          gte: new Date(y, m - 1, 1),
+          lt: new Date(y, m, 1),
         },
       },
     });
@@ -169,8 +194,7 @@ export const bookAppointment = catchAsync(async (req, res, next) => {
   await notifyPatient(
     userId,
     "Your appointment is confirmed",
-    `Your appointment with Dr. ${
-      updated.doctor.user.username
+    `Your appointment with Dr. ${updated.doctor.user.username
     } is confirmed for ${appointment.appointmentDate.toLocaleString()}`
   );
 
@@ -213,12 +237,15 @@ export const getDoctorSchedule = catchAsync(async (req, res, next) => {
   const doctorId = req.user.id;
   const { month, year } = req.query;
 
+  const m = parseInt(month);
+  const y = parseInt(year);
+
   const appointments = await prisma.appointment.findMany({
     where: {
       doctorId,
       appointmentDate: {
-        gte: new Date(year, month - 1, 1),
-        lt: new Date(year, month, 1),
+        gte: new Date(y, m - 1, 1),
+        lt: new Date(y, m, 1),
       },
     },
   });

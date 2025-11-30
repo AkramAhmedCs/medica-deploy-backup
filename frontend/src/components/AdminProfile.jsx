@@ -96,7 +96,7 @@ const AdminProfile = () => {
   const handleLoadAllUsers = async () => {
     try {
       const response = await getAllUsers();
-      setAllUsers(response.data || []);
+      setAllUsers(response.users || []);
       setShowUsersModal(true);
     } catch (err) {
       console.error(err);
@@ -108,7 +108,7 @@ const AdminProfile = () => {
   const handleViewAppointmentDetails = async (appointmentId) => {
     try {
       const response = await getAppointmentById(appointmentId);
-      setAppointmentDetails(response.data);
+      setAppointmentDetails(response.appointment);
       setShowAppointmentDetailsModal(true);
     } catch (err) {
       console.error(err);

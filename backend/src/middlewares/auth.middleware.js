@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 export const protect = catchAsync(async (req, res, next) => {
+  console.log("Auth Header:", req.headers.authorization);
   let token;
   if (
     req.headers.authorization &&
@@ -14,7 +15,7 @@ export const protect = catchAsync(async (req, res, next) => {
   }
   if (!token) {
     return next(
-      new AppError("You are not logged in! Please log in to get access.", 401)
+      new AppError(`You are not logged in! Headers: ${JSON.stringify(req.headers)}`, 401)
     );
   }
   const decoded = await jwt.verify(token, process.env.JWT_SECRET);

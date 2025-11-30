@@ -23,9 +23,11 @@ export default function Register() {
       if (formattedPhone.startsWith("0")) {
         formattedPhone = "+2" + formattedPhone.slice(1);
       }
-      await signupAPI({ username, phone, email, password });
+      const data = await signupAPI({ username, phone, email, password });
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-      setSuccess("Account created successfully! Redirecting to login...");
+      setSuccess("Account created successfully! Redirecting to dashboard...");
       setTimeout(() => navigate("/patient_dashboard"), 2000);
     } catch (err) {
       console.error(err);
