@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 // Handle client-side routing by serving index.html for all non-API routes
 // This must be AFTER API routes but BEFORE the 404 handler
-app.get("*", (req, res, next) => {
+app.get(/(.*)/, (req, res, next) => {
   if (req.originalUrl.startsWith('/api')) {
     return next();
   }
