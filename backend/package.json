@@ -25,6 +25,7 @@
     "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "medica": "file:..",
     "morgan": "^1.10.1",
     "mysql2": "^3.15.3",
     "twilio": "^5.10.6"

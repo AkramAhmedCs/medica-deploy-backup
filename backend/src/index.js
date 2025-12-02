@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
+import path from "path";
+import { fileURLToPath } from "url";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
@@ -25,6 +27,21 @@ app.use(express.json());
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/appointments", appointmentRoutes);
 app.use("/api/v1/medicalHistory", medicalHistoryRoutes);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the frontend dist directory
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+
+// Handle client-side routing by serving index.html for all non-API routes
+// This must be AFTER API routes but BEFORE the 404 handler
+app.get("*", (req, res, next) => {
+  if (req.originalUrl.startsWith('/api')) {
+    return next();
+  }
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 app.use((req, res, next) =>
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404))
