@@ -78,8 +78,8 @@ A **production-ready**, **award-winning** medical appointment management system 
 
 ### Clone Repository
 ```bash
-git clone https://github.com/SerajEldeen/Medica.git
-cd Medica
+git clone https://github.com/yourusername/medica.git
+cd medica
 ```
 
 ### Backend Setup
@@ -88,8 +88,9 @@ cd backend
 npm install
 
 # Configure environment variables
+# Configure environment variables
 cp .env.example .env
-# Edit .env with your database credentials
+# Edit .env with your database credentials and API keys
 
 # Run migrations
 npx prisma migrate dev
